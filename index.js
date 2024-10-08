@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 
+process.env.DEBUG = 'express:*';
+
 app.use(express.json());
 
 // Connexion à MongoDB
