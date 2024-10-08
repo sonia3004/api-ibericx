@@ -16,21 +16,20 @@ mongoose.connect(process.env.MONGODB_URI)
     process.exit(1); // Arrêter l'application en cas d'échec de la connexion à MongoDB
   });
 
-// Exemple de route GET
-app.get('/', (req, res) => {
-  res.send('Bienvenue sur mon API');
-});
-
-// Route POST pour créer un nouveau produit
-app.post('/produits', async (req, res) => {
+// Route GET pour récupérer tous les produits
+app.get('/produits', async (req, res) => {
   try {
-    const nouveauProduit = new Produit(req.body); // Crée un nouveau produit à partir des données envoyées
-    await nouveauProduit.save(); // Sauvegarde le produit dans la base de données
-    res.status(201).json({ message: 'Produit créé avec succès', data: nouveauProduit });
+    const produits = await Produit.find(); // Récupère tous les produits dans la base de données
+    res.status(200).json(produits); // Renvoie les produits en tant que réponse
   } catch (err) {
-    console.error('Erreur lors de la création du produit:', err);
+    console.error('Erreur lors de la récupération des produits:', err);
     res.status(500).json({ message: 'Erreur interne du serveur' });
   }
+});
+
+// Exemple de route GET pour la page d'accueil
+app.get('/', (req, res) => {
+  res.send('Bienvenue sur mon API');
 });
 
 // Gestion des routes non trouvées
