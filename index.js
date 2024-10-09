@@ -27,6 +27,18 @@ app.get('/produits', async (req, res) => {
   }
 });
 
+// Route POST pour ajouter un nouveau produit
+app.post('/produits', async (req, res) => {
+  try {
+    const nouveauProduit = new Produit(req.body); // Crée un nouveau produit à partir des données envoyées dans le corps de la requête
+    await nouveauProduit.save(); // Sauvegarde le nouveau produit dans la base de données
+    res.status(201).json(nouveauProduit); // Renvoie le produit ajouté avec un code de statut 201 (créé)
+  } catch (err) {
+    console.error('Erreur lors de l\'ajout du produit:', err);
+    res.status(500).json({ message: 'Erreur interne du serveur' });
+  }
+});
+
 // Exemple de route GET pour la page d'accueil
 app.get('/', (req, res) => {
   res.send('Bienvenue sur mon API');
