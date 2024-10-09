@@ -13,26 +13,18 @@ const produitSchema = new mongoose.Schema({
   sold: { type: Number, default: 0 },
   quantity: { type: Number, required: true },
   description: { type: String, required: true },
-  category: { type: String, required: true }, // Ajout du champ category
-  size: {
-    36: { type: Boolean, default: false },
-    37: { type: Boolean, default: false },
-    38: { type: Boolean, default: false },
-    39: { type: Boolean, default: false },
-    40: { type: Boolean, default: false },
-    41: { type: Boolean, default: false },
-    42: { type: Boolean, default: false },
-    43: { type: Boolean, default: false },
-    44: { type: Boolean, default: false },
-    45: { type: Boolean, default: false },
-    46: { type: Boolean, default: false },
-  },
+  category: { type: String, required: true }, // Chaussures, vêtements ou accessoires
+  sizes: [{ type: String }] // Un tableau pour les tailles, qui s'adapte à chaque catégorie
 });
 
-// Ajout d'une méthode pour inclure les tailles uniquement si le produit est une chaussure
+// Middleware pour ajuster les tailles en fonction de la catégorie du produit
 produitSchema.pre('save', function (next) {
-  if (this.category !== 'chaussures') {
-    this.size = undefined; // Supprime les tailles si ce n'est pas une chaussure
+  if (this.category === 'chaussures') {
+    this.sizes = ['36', '37', '38', '39', '40', '41', '42', '43', '44', '45'];
+  } else if (this.category === 'vêtements') {
+    this.sizes = ['S', 'M', 'L', 'XL'];
+  } else {
+    this.sizes = []; // Pas de tailles pour les accessoires
   }
   next();
 });
