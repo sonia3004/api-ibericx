@@ -39,6 +39,34 @@ app.post('/produits', async (req, res) => {
   }
 });
 
+// Route PUT pour mettre à jour un produit existant
+app.put('/produits/:id', async (req, res) => {
+  try {
+    const produitMisAJour = await Produit.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!produitMisAJour) {
+      return res.status(404).json({ message: 'Produit non trouvé' });
+    }
+    res.status(200).json(produitMisAJour);
+  } catch (err) {
+    console.error('Erreur lors de la mise à jour du produit:', err);
+    res.status(500).json({ message: 'Erreur interne du serveur' });
+  }
+});
+
+// Route DELETE pour supprimer un produit existant
+app.delete('/produits/:id', async (req, res) => {
+  try {
+    const produitSupprime = await Produit.findByIdAndDelete(req.params.id);
+    if (!produitSupprime) {
+      return res.status(404).json({ message: 'Produit non trouvé' });
+    }
+    res.status(200).json({ message: 'Produit supprimé avec succès' });
+  } catch (err) {
+    console.error('Erreur lors de la suppression du produit:', err);
+    res.status(500).json({ message: 'Erreur interne du serveur' });
+  }
+});
+
 // Exemple de route GET pour la page d'accueil
 app.get('/', (req, res) => {
   res.send('Bienvenue sur mon API');
