@@ -2,10 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const Produit = require('./models/produit'); // Import du modèle Produit
+const cors = require('cors'); // Import du middleware CORS
 const app = express();
 
 process.env.DEBUG = 'express:*';
 
+app.use(cors()); // Utilisation du middleware CORS
 app.use(express.json());
 
 // Connexion à MongoDB
@@ -85,3 +87,4 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
+
