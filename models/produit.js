@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const produitSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  price: { type: String, required: true },
+  price: { type: Number, required: true },
   href: { type: String, required: true },
   colors: {
     black: { type: Boolean, default: false },
@@ -13,8 +13,10 @@ const produitSchema = new mongoose.Schema({
   sold: { type: Number, default: 0 },
   quantity: { type: Number, required: true },
   description: { type: String, required: true },
-  category: { type: String, required: true }, // Chaussures, vêtements ou accessoires
-  sizes: [{ type: String }] // Un tableau pour les tailles, qui s'adapte à chaque catégorie
+  category: { type: String, required: true },
+  sizes: [{ type: String }],
+  mostPopular: { type: Boolean, default: false }, // Ajout de Most Popular
+  latest: { type: Boolean, default: false } // Ajout de Latest
 });
 
 // Middleware pour ajuster les tailles en fonction de la catégorie du produit
@@ -24,7 +26,7 @@ produitSchema.pre('save', function (next) {
   } else if (this.category === 'vêtements') {
     this.sizes = ['S', 'M', 'L', 'XL'];
   } else {
-    this.sizes = []; // Pas de tailles pour les accessoires
+    this.sizes = [];
   }
   next();
 });
