@@ -29,6 +29,20 @@ app.get('/produits', async (req, res) => {
   }
 });
 
+// Route GET pour récupérer un produit spécifique par son ID
+app.get('/produits/:id', async (req, res) => {
+  try {
+    const produit = await Produit.findById(req.params.id); // Recherche du produit par ID
+    if (!produit) {
+      return res.status(404).json({ message: 'Produit non trouvé' }); // Si le produit n'est pas trouvé
+    }
+    res.status(200).json(produit); // Renvoie le produit trouvé
+  } catch (err) {
+    console.error('Erreur lors de la récupération du produit:', err);
+    res.status(500).json({ message: 'Erreur interne du serveur' });
+  }
+});
+
 // Route POST pour ajouter un nouveau produit
 app.post('/produits', async (req, res) => {
   try {
@@ -87,4 +101,3 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
-
