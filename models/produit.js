@@ -4,11 +4,7 @@ const produitSchema = new mongoose.Schema({
   name: { type: String, required: true },
   price: { type: Number, required: true },
   href: { type: String, required: true },
-  colors: {
-    black: { type: Boolean, default: false },
-    white: { type: Boolean, default: false },
-    red: { type: Boolean, default: false },
-  },
+  colors: [{ type: String }], // Tableau de noms de couleurs
   image: [{ type: String }],
   sold: { type: Number, default: 0 },
   quantity: { type: Number, required: true },
