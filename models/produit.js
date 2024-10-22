@@ -4,14 +4,14 @@ const produitSchema = new mongoose.Schema({
   name: { type: String, required: true },
   price: { type: Number, required: true },
   href: { type: String, required: true },
-  colors: [{ type: String }], // Tableau de noms de couleurs
+  colors: [{ type: String }], 
   image: [{ type: String }],
   sold: { type: Number, default: 0 },
   quantity: { type: Number, required: true },
   description: { type: String, required: true },
   category: { type: String, required: true },
   sizes: [{ type: String }],
-  date_added: { type: Date, default: Date.now } // Remplacement de 'latest' par 'date_added'
+  date_added: { type: Date, default: Date.now } 
 });
 
 // Middleware pour ajuster les tailles en fonction de la catégorie du produit
