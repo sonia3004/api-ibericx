@@ -11,13 +11,11 @@ const produitSchema = new mongoose.Schema({
   description: { type: String, required: true },
   category: { type: String, required: true },
   sizes: [{ type: String }],
-  mostPopular: { type: Boolean, default: false }, // Ajout de Most Popular
   date_added: { type: Date, default: Date.now } // Remplacement de 'latest' par 'date_added'
 });
 
 // Middleware pour ajuster les tailles en fonction de la catégorie du produit
 produitSchema.pre('save', function (next) {
-  // Ne réinitialise les tailles que si elles ne sont pas fournies
   if (!this.sizes || this.sizes.length === 0) {
     if (this.category === 'chaussures') {
       this.sizes = ['36', '37', '38', '39', '40', '41', '42', '43', '44', '45'];
