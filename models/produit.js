@@ -12,7 +12,7 @@ const produitSchema = new mongoose.Schema({
   category: { type: String, required: true },
   sizes: [{ type: String }],
   mostPopular: { type: Boolean, default: false }, // Ajout de Most Popular
-  latest: { type: Boolean, default: false } // Ajout de Latest
+  date_added: { type: Date, default: Date.now } // Remplacement de 'latest' par 'date_added'
 });
 
 // Middleware pour ajuster les tailles en fonction de la catégorie du produit
